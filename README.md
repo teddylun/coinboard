@@ -10,7 +10,7 @@
 > Cryptocurrency Dashboard CLI 
 All-in-one Cryptocurrencies dashboard on your terminal
 <p align="center">
-  <img src="https://github.com/teddylun/coinboard/blob/master/src/common/images/screenshot.png" width="350"/>
+  <img src="https://github.com/teddylun/coinboard/blob/master/src/common/images/screenshot.png" width="100%"/>
 </p>
 
 ## Features

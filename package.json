@@ -1,0 +1,34 @@
+{
+  "name": "coinboard",
+  "version": "0.0.1",
+  "description": "A command line tool for bitcoins dashboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "coinboard": "./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+"
+  },
+  "keywords": [
+    "bitcoins",
+    "cryptocurrency",
+    "chart",
+    "cli"
+  ],
+  "author": "Teddy Lun <lunlun414@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "asciichart": "^1.5.2",
+    "axios": "^0.17.1",
+    "cfonts": "^1.1.3",
+    "cli-table2": "^0.2.0",
+    "commander": "^2.11.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.19.2",
+    "ora": "^1.3.0"
+  }
+}

@@ -6,7 +6,8 @@ const moment = require('moment')
 const cfonts = require('cfonts')
 const asciichart = require('asciichart')
 const ora = require('ora')
-const table = require('cli-table2')
+const Table = require('cli-table2')
+const colors = require('colors')
 
 program
   .version('0.0.1')
@@ -14,7 +15,7 @@ program
   .option('-cur, --currency <string>', 'specify the currency of coin (Default: USD)', 'USD')
   .option('-d, --days <n>', 'number of days the chart will go back', parseInt)
   .option('-r, --rank <n>', 'starting rank (Default: 0)', parseInt)
-  .option('-lim, --limit <n>', 'specify the number of coins to display (Default: 5)', parseInt)
+  .option('-l, --limit <n>', 'specify the number of coins to display (Default: 5)', parseInt)
   .parse(process.argv)
 
 // header 
@@ -37,6 +38,9 @@ const maxWidth = width || 100
 const maxHeight = height || 14
 const maxLimit = limit || 5
 const startingRank = rank || 0
+let loading = false
+const spinner = ora()
+spinner.color = 'green'
 
 // custom params
 const { coin, currency } = program
@@ -45,9 +49,32 @@ const { coin, currency } = program
 const cryptocompareAPI = 'https://min-api.cryptocompare.com/data'
 const historyAPI = `${cryptocompareAPI}/pricehistorical?fsym=${coin}&tsyms=${currency}&ts=`
 const snapShotAPI = `https://www.cryptocompare.com/api/data/coinsnapshot/?fsym=${coin}&tsym=${currency}`
-
 const coinmarketcapAPI = 'https://api.coinmarketcap.com/v1/ticker'
-const coinsRankingAPI = `${coinmarketcapAPI}/?start=${startingRank}limit=${maxLimit}`
+const coinsRankingAPI = `${coinmarketcapAPI}/?start=${startingRank}&limit=${maxLimit}&convert=${currency}`
+
+// table
+const table = new Table({
+  chars: {
+    'top': '-',
+    'top-mid': '-',
+    'top-left': '-',
+    'top-right': '-',
+    'bottom': '-',
+    'bottom-mid': '-',
+    'bottom-left': '-',
+    'bottom-right': '-',
+    'left': '',
+    'left-mid': '-',
+    'mid': '-',
+    'mid-mid': '-',
+    'right': '',
+    'right-mid': '-',
+    'middle': '│'
+  },
+  head: ['Rank', '💰 Coin', `Price (${currency})`, 'Change (24H)', 'Change (1H)', 'Change (7D)', `Market Cap (${currency})`].map(title => title.yellow),
+  colWidths: [6, 15, 15, 15, 15, 20],
+  wordWrap: true
+})
 
 // calling APIs
 const getPastTimeStamps = () => {
@@ -57,7 +84,6 @@ const getPastTimeStamps = () => {
   }
   return _.chunk(dates, 15)
 }
-
 const fetchPriceHistory = async (dates) => {
   // const dates = getPastTimeStamps()
   let promises = _.map(dates, async (date) => {
@@ -68,41 +94,92 @@ const fetchPriceHistory = async (dates) => {
   })
   return Promise.all(promises)
 }
-
 const fetchSnapShot = async () => await axios.get(snapShotAPI)
+const fetchRanks = async () => await axios.get(coinsRankingAPI)
 
 const printChart = (history) => console.log(asciichart.plot(history, { height: maxHeight }))
 
-const loadChart = async () => {
-  const spinner = ora('📈 loading coins data...').start()
-  spinner.color = 'yellow'
-  // chart part
-  let pastTimeStamps = getPastTimeStamps()
-  let result = []
-  for (let i = 0; i < pastTimeStamps.length; i++){
-    let history = await fetchPriceHistory(pastTimeStamps[i])
-    result.push(...history)
+const toggleLoading = (text) => {
+  if(loading) {
+    loading = !loading  
+    spinner.stop()
+    return spinner.clear()
+  } else {
+    loading = !loading
+    return spinner.start(text)
   }
+}
 
-  // legends part
-  const snapShot = await fetchSnapShot()
-  const { PRICE, LASTUPDATE } = snapShot.data.Data.AggregatedData
-  const lastUpdatedAt = moment.unix(LASTUPDATE).format("YYYY-MM-DD h:mm")
-  const legends = `${coin} chart on last ${daysOfData} days \nCurrent: ${PRICE} ${currency}, updated at: ${lastUpdatedAt} \nsource: https://www.cryptocompare.com`
-  
-  // display result
-  spinner.stop()
-  printChart(result)
-  console.log(legends) 
+const loadChart = async () => {
+  try{
+    // chart part
+    let pastTimeStamps = getPastTimeStamps()
+    let result = []
+    for (let i = 0; i < pastTimeStamps.length; i++) {
+      toggleLoading('Loading 📈 ...')
+      let history = await fetchPriceHistory(pastTimeStamps[i])
+      toggleLoading()
+      result.push(...history)
+    }
+
+    // legends part
+    toggleLoading('Loading 📸 ...')
+    const snapShot = await fetchSnapShot()
+    toggleLoading()
+    const { PRICE, LASTUPDATE } = snapShot.data.Data.AggregatedData
+    const lastUpdatedAt = moment.unix(LASTUPDATE).format("YYYY-MM-DD hh:mm:ss")
+    const legends = `${coin} Chart on last ${daysOfData} days \nCurrent: ${PRICE} (${currency})`
+    const source = `Source: https://www.cryptocompare.com at ${lastUpdatedAt}`
+    // display result
+    printChart(result)
+    console.log(legends.green)
+    return console.log(`${source.green}\n`)
+  } catch (err) {
+    throw err
+  } 
+}
+
+const ranksMassage = (record) => {
+  const { rank, symbol, percent_change_24h, percent_change_1h, percent_change_7d  } = record
+  const lowerCaseCurrency = currency.toLowerCase()
+  const marketCap = record[`market_cap_${lowerCaseCurrency}`]
+  const price = record[`price_${lowerCaseCurrency}`]
+  return [
+    rank,
+    `💰 ${symbol}`, 
+    price,
+    percent_change_24h > 0 ? percent_change_24h.green : percent_change_24h.red, 
+    percent_change_1h > 0 ? percent_change_1h.green : percent_change_1h.red, 
+    percent_change_7d > 0 ? percent_change_7d.green : percent_change_7d.red,
+    marketCap
+  ]
+}
+
+const pushToTable = (record) => table.push(record)
+const printTable = () => console.log(table.toString())
+
+const loadRanks = async () => {
+  try {
+    toggleLoading('Loading 📊 ...')
+    const ranks = await fetchRanks()
+    toggleLoading()
+    ranks.data
+      .map(ranksMassage)
+      .forEach(pushToTable)
+    printTable()
+    const lastUpdatedAt = moment.unix(ranks.data[0]['last_updated']).format("YYYY-MM-DD hh:mm:ss")
+    const legends = `Source: https://coinmarketcap.com at ${lastUpdatedAt}`
+    return console.log(legends.bold)
+  } catch (err) {
+    throw err
+  }
 }
 
 const main = async () => {
   // show header
   cfonts.say(header, headerconfig)
-  
-  loadChart()
-
-
+  const charting = await loadChart(spinner)
+  loadRanks(charting)
 }
 
 main()

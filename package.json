@@ -1,6 +1,6 @@
 {
   "name": "coinboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A command line tool for bitcoins dashboard",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "axios": "^0.17.1",
     "cfonts": "^1.1.3",
     "cli-table2": "^0.2.0",
+    "colors": "^1.1.2",
     "commander": "^2.11.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.2",

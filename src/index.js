@@ -13,7 +13,7 @@ program
   .version('0.0.1')
   .option('-c, --coin <string>', 'specify the coin e.g. BTC, ETH... (Default: BTC)', 'BTC')
   .option('-cur, --currency <string>', 'specify the currency of coin (Default: USD)', 'USD')
-  .option('-d, --days <n>', 'number of days the chart will go back', parseInt)
+  .option('-d, --days <n>', 'number of days the chart will go back (Default: 30)', parseInt)
   .option('-r, --rank <n>', 'starting rank (Default: 0)', parseInt)
   .option('-l, --limit <n>', 'specify the number of coins to display (Default: 5)', parseInt)
   .parse(process.argv)

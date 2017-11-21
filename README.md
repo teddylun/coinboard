@@ -1,5 +1,5 @@
 <p align=center>
-<img src="https://github.com/teddylun/coinboard/master/logo.png" width="50%">
+<img src="https://raw.githubusercontent.com/teddylun/coinboard/master/logo.png" width="50%">
 </p>
 <p align=center>
 <a target="_blank" href="http://nodejs.org/download/" title="Node version"><img src="https://img.shields.io/badge/node.js-%3E=_8.0-green.svg"></a>
@@ -9,9 +9,6 @@
 
 > Cryptocurrency Dashboard CLI 
 All-in-one Cryptocurrencies dashboard on your terminal
-<p align="center">
-  <img src="https://github.com/teddylun/coinboard/blob/master/src/common/images/screenshot.png" width="100%"/>
-</p>
 
 ## Features
 - Coins Chart
@@ -45,6 +42,10 @@ $ coinboard
   -l, --limit <n>            specify the number of coins to display (Default: 5)
   -h, --help                 output usage information
 ```
+## Dashboard Screenshot
+<p align="center">
+  <img src="https://raw.githubusercontent.com/teddylun/coinboard/master/src/common/images/screenshot.png" width="100%"/>
+</p>
 
 ## Development
 ```

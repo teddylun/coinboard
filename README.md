@@ -8,7 +8,9 @@
 </p>  
 
 > Bitcoin dashboard on CLI 
+
 Check bitcoin prices on CLI 💻
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/teddylun/coinboard/master/src/common/images/screenshot.png" width="100%"/>
 </p>

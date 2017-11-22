@@ -11,11 +11,11 @@ const colors = require('colors')
 
 program
   .version('0.0.1')
-  .option('-c, --coin <string>', 'specify the coin e.g. BTC, ETH... (Default: BTC)', 'BTC')
-  .option('-cur, --currency <string>', 'specify the currency of coin (Default: USD)', 'USD')
-  .option('-d, --days <n>', 'number of days the chart will go back (Default: 30)', parseInt)
-  .option('-r, --rank <n>', 'starting rank (Default: 0)', parseInt)
-  .option('-l, --limit <n>', 'specify the number of coins to display (Default: 5)', parseInt)
+  .option('-c, --coin <string>', 'BOTH: specify the coin e.g. BTC, ETH... (Default: BTC)', 'BTC')
+  .option('-cur, --currency <string>', 'BOTH: specify the currency of coin (Default: USD)', 'USD')
+  .option('-d, --days <n>', 'CHART: number of days the chart will go back, must be 90 > days > 0 (Default: 30)', parseInt)
+  .option('-r, --rank <n>', 'RANK: starting rank (Default: 0)', parseInt)
+  .option('-l, --limit <n>', 'RANK: specify the number of coins to display (Default: 5)', parseInt)
   .parse(process.argv)
 
 // header 
@@ -33,7 +33,7 @@ const headerconfig = {
 
 // params with default
 const { days, width, height, limit, rank } = program
-const daysOfData =  days > 0 && days < 90 ? days : 30
+const daysOfData =  days > 0 && days <= 90 ? days : 30
 const maxWidth = width || 100
 const maxHeight = height || 14
 const maxLimit = limit || 5
@@ -182,6 +182,7 @@ const main = async () => {
   cfonts.say(header, headerconfig)
   const charting = await loadChart(spinner)
   loadRanks(charting)
+  
 }
 
 main()

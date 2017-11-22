@@ -40,11 +40,11 @@ $ coinboard
 ## Options
 ```
   -V, --version              output the version number
-  -c, --coin <string>        specify the coin e.g. BTC, ETH... (Default: BTC)
-  -cur, --currency <string>  specify the currency of coin (Default: USD)
-  -d, --days <n>             number of days the chart will go back (Default: 30)
-  -r, --rank <n>             starting rank (Default: 0)
-  -l, --limit <n>            specify the number of coins to display (Default: 5)
+  -c, --coin <string>        BOTH: specify the coin e.g. BTC, ETH... (Default: BTC)
+  -cur, --currency <string>  BOTH: specify the currency of coin (Default: USD)
+  -d, --days <n>             CHART: number of days the chart will go back, must be 90 > days > 0 (Default: 30)
+  -r, --rank <n>             RANK: starting rank (Default: 0)
+  -l, --limit <n>            RANK: specify the number of coins to display (Default: 5)
   -h, --help                 output usage information
 ```
 

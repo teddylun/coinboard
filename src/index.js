@@ -8,9 +8,10 @@ const asciichart = require('asciichart')
 const ora = require('ora')
 const Table = require('cli-table2')
 const colors = require('colors')
+const package = require('../package.json')
 
 program
-  .version('0.0.1')
+  .version(package.version)
   .option('-c, --coin <string>', 'BOTH: specify the coin e.g. BTC, ETH... (Default: BTC)', 'BTC')
   .option('-cur, --currency <string>', 'BOTH: specify the currency of coin (Default: USD)', 'USD')
   .option('-d, --days <n>', 'CHART: number of days the chart will go back, must be 90 > days > 0 (Default: 30)', parseInt)

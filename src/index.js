@@ -135,6 +135,7 @@ const loadChart = async () => {
     console.log(legends.green)
     return console.log(`${source.green}\n`)
   } catch (err) {
+    toggleLoading()
     throw err
   } 
 }
@@ -171,6 +172,7 @@ const loadRanks = async () => {
     const legends = `Source: https://coinmarketcap.com at ${lastUpdatedAt}`
     return console.log(legends.bold)
   } catch (err) {
+    toggleLoading()
     throw err
   }
 }

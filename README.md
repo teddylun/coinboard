@@ -1,5 +1,5 @@
 <p align=center>
-<img src="https://raw.githubusercontent.com/teddylun/coinboard/master/src/common/images/logo.png" width="50%">
+<img src="https://raw.githubusercontent.com/teddylun/coinboard/master/logo.png" width="50%">
 </p>
 <p align=center>
 <a target="_blank" href="http://nodejs.org/download/" title="Node version"><img src="https://img.shields.io/badge/node.js-%3E=_8.0-green.svg"></a>

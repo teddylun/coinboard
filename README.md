@@ -7,8 +7,11 @@
 <a target="_blank" href="http://makeapullrequest.com" title="PRs Welcome"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 </p>  
 
-> Cryptocurrency Dashboard CLI 
-All-in-one Cryptocurrencies dashboard on your terminal
+> Bitcoin dashboard on CLI 
+Check bitcoin prices on CLI 💻
+<p align="center">
+  <img src="https://raw.githubusercontent.com/teddylun/coinboard/master/src/common/images/screenshot.png" width="100%"/>
+</p>
 
 ## Features
 - Coins Chart
@@ -42,10 +45,6 @@ $ coinboard
   -l, --limit <n>            specify the number of coins to display (Default: 5)
   -h, --help                 output usage information
 ```
-## Dashboard Screenshot
-<p align="center">
-  <img src="https://raw.githubusercontent.com/teddylun/coinboard/master/src/common/images/screenshot.png" width="100%"/>
-</p>
 
 ## Development
 ```

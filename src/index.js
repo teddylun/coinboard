@@ -94,6 +94,11 @@ const fetchPriceHistory = async (dates) => {
     }
   })
   return Promise.all(promises)
+    .then(res => res)
+    .catch(e => {
+      console.error('\n🛑 Please check the limit of Cryptocompare API usage: https://www.cryptocompare.com/api/#requests, and try again later!\n Second limit API: https://min-api.cryptocompare.com/stats/rate/second/limit\nHour limit API: https://min-api.cryptocompare.com/stats/rate/hour/limit')
+      throw e
+    })
 }
 const fetchSnapShot = async () => await axios.get(snapShotAPI)
 const fetchRanks = async () => await axios.get(coinsRankingAPI)

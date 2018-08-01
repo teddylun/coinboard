@@ -6,7 +6,7 @@ const moment = require('moment')
 const cfonts = require('cfonts')
 const asciichart = require('asciichart')
 const ora = require('ora')
-const Table = require('cli-table2')
+const Table = require('cli-table3')
 const colors = require('colors')
 const package = require('../package.json')
 

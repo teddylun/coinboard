@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 const _ = require('lodash')
 const program = require('commander')
 const axios = require('axios')
@@ -19,13 +19,13 @@ program
   .option('-l, --limit <n>', 'RANK: specify the number of coins to display (Default: 5)', parseInt)
   .parse(process.argv)
 
-// header 
-const header = 'coinboard' 
+// header
+const header = 'coinboard'
 const headerconfig = {
   font: 'block',
   align: 'left',
   colors: ['green'],
-  background: 'Black',
+  background: 'black',
   letterSpacing: 2,
   lineHeight: 1,
   space: true,
@@ -107,7 +107,7 @@ const printChart = (history) => console.log(asciichart.plot(history, { height: m
 
 const toggleLoading = (text) => {
   if(loading) {
-    loading = !loading  
+    loading = !loading
     spinner.stop()
     return spinner.clear()
   } else {
@@ -143,7 +143,7 @@ const loadChart = async () => {
   } catch (err) {
     toggleLoading()
     throw err
-  } 
+  }
 }
 
 const ranksMassage = (record) => {
@@ -153,10 +153,10 @@ const ranksMassage = (record) => {
   const price = record[`price_${lowerCaseCurrency}`]
   return [
     rank,
-    `💰 ${symbol}`, 
+    `💰 ${symbol}`,
     price,
-    percent_change_24h > 0 ? percent_change_24h.green : percent_change_24h.red, 
-    percent_change_1h > 0 ? percent_change_1h.green : percent_change_1h.red, 
+    percent_change_24h > 0 ? percent_change_24h.green : percent_change_24h.red,
+    percent_change_1h > 0 ? percent_change_1h.green : percent_change_1h.red,
     percent_change_7d > 0 ? percent_change_7d.green : percent_change_7d.red,
     marketCap
   ]
@@ -188,7 +188,7 @@ const main = async () => {
   cfonts.say(header, headerconfig)
   const charting = await loadChart(spinner)
   loadRanks(charting)
-  
+
 }
 
 main()
